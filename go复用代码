@@ -1,0 +1,48 @@
+package main
+
+import "fmt"
+
+type Sayer interface {
+ name()string
+ sayHi()
+}
+
+func SayHi(sayer Sayer){
+ fmt.Println("------开始一些操作-----------")
+ sayer.sayHi()
+ fmt.Println("--------结束一些操作-------------")
+}
+
+type Proxy struct{
+
+}
+
+func (p *Proxy) name() string{
+ return "proxy"
+}
+
+func (p *Proxy) sayHi(){
+ fmt.Printf("[%s] say: %s", p.name(), "hi")
+}
+
+type Crack struct {
+
+}
+
+func (c *Crack) name() string{
+ return "crack"
+}
+
+func (c *Crack) sayHi(){
+ fmt.Printf("[%s] say: %s", c.name(), "hi")
+}
+
+func main(){
+    SayHi(&Crack{})
+    SayHi(&Proxy{})
+}
+
+
+/*
+    go实现代码复用的方式。采用duck type方式将公共方法抽出来，不作为struct方法。而非公共方法（个性方法）作为struct自身的方法.
+*/
